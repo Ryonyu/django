@@ -5,6 +5,19 @@ from .models import (NoteBook)
 from .forms import (NoteBookForm)
 PAGENATION_NUM = 100
 
+PASSWORD = "gardenMax"  # 任意のパスワードを設定
+
+def password_protect(request):
+    if request.method == "POST":
+        entered_password = request.POST.get("password")
+        if entered_password == PASSWORD:
+            request.session["authenticated"] = True  # セッションに認証情報を保存
+            return redirect("notebook_list")  # notebook_list のURL名にリダイレクト
+        else:
+            return render(request, "password_protect.html", {"error": "パスワードが間違っています。"})
+
+    return render(request, "password_protect.html")
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -13,6 +26,7 @@ def index(request):
 # notebook
 ##################################################################################################
 # 一覧
+@login_required
 def notebook_list(request):
     models = NoteBook.objects.all()
 

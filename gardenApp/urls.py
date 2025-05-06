@@ -10,7 +10,6 @@ urlpatterns = [
     path('notebook/edit/<int:id>/', views.notebook_edit, name='notebook_edit'),
     path('notebook/delete/<int:id>/', views.notebook_delete, name='notebook_delete'),
 
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
+    path("password/", views.password_protect, name="password_protect"),
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
