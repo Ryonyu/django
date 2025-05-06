@@ -63,7 +63,7 @@ def login_view(request: HttpRequest):
 ##################################################################################################
 # 一覧
 
-@custom_login_required
+
 def notebook_list(request):
     models = NoteBook.objects.all()
 
