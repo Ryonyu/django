@@ -5,4 +5,4 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, '/templates/index.html')
