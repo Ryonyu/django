@@ -48,7 +48,7 @@ def login_view(request: HttpRequest):
             if check_password(raw_password, user.password):
                 # セッションにログイン情報を保存
                 request.session['custom_user_id'] = user.id
-                return redirect('home')
+                return redirect('notebook_list')  # ログイン成功後にリダイレクト
             else:
                 error = "パスワードが正しくありません"
         except CustomUser.DoesNotExist:
