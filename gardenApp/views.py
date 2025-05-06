@@ -26,7 +26,6 @@ def index(request):
 # notebook
 ##################################################################################################
 # 一覧
-@login_required
 def notebook_list(request):
     models = NoteBook.objects.all()
 
