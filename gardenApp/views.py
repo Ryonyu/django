@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .models import (NoteBook)
 from django.views.decorators.http import require_POST
 
+PAGENATION_NUM = 100
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
