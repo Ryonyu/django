@@ -7,7 +7,7 @@ PAGENATION_NUM = 100
 
 PASSWORD = "gardenMax"  # 任意のパスワードを設定
 
-def login(request):
+def password_protect(request):
     if request.method == "POST":
         entered_password = request.POST.get("password")
         if entered_password == PASSWORD:
