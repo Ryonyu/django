@@ -88,34 +88,34 @@
         <tbody>
             {% for model in page_obj %}
             <tr>
-                <td data-label="名称">{{ model.title }}</td>
-                <td data-label="カテゴリ">{{ model.category }}</td>
-                <td data-label="説明">
-                    <a href="#" class="popup-trigger" data-content="{{ model.content|escape }}">{{ model.content|slice:":10" }}...</a>
+                <td>{{ model.title }}</td>
+                <td>{{ model.category }}</td>
+                <td>
+                <a href="#" class="popup-trigger" data-content="{{ model.content|escape }}">{{ model.content|slice:":10" }}...</a>
                 </td>
-                <td data-label="季節">{{ model.season }}</td>
-                <td data-label="フロア">{{ model.floor }}</td>
-                <td data-label="エリア">{{ model.area }}</td>
-                <td data-label="画像">
+                <td>{{ model.season }}</td>
+                <td>{{ model.floor }}</td>
+                <td>{{ model.area }}</td>
+                <td>
                     {% if model.image %}
-                        <img src="{{ model.image.url }}" alt="画像" class="output-image">
+                        <img src="{{ model.image.url }}" alt="画像" class="output-image" style="max-width: 100px; height: auto;">
                     {% else %}
                         <p>画像はありません</p>
                     {% endif %}
                 </td>
-                <td data-label="画像2">
+                <td>
                     {% if model.image2 %}
-                        <img src="{{ model.image2.url }}" alt="画像2" class="output-image">
+                        <img src="{{ model.image2.url }}" alt="画像2" class="output-image" style="max-width: 100px; height: auto;">
                     {% else %}
                         <p>画像はありません</p>
                     {% endif %}
                 </td>
-                <td data-label="メモ">{{ model.memo|linebreaksbr }}</td>
-                <td data-label="URL">
+                <td>{{ model.memo|linebreaksbr }}</td>
+                <td>
                     <a href="{{ model.url }}" target="_blank" class="btn btn-copy">URL</a>
                 </td>
-                <td data-label="作成日時">{{ model.created_at |date:"Y/m/d" }}</td>
-                <td data-label="操作">
+                <td>{{ model.created_at |date:"Y/m/d" }}</td>
+                <td>
                     <a href="{% url 'notebook_edit' model.id %}" class="btn btn-copy">編集</a>
                     <a href="{% url 'notebook_delete' model.id %}" class="btn btn-danger">削除</a>
                 </td>

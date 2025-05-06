@@ -1,0 +1,40 @@
+{% load static %} <!-- staticタグを使うためにloadする -->
+<!-- base_generic.html -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Prompt Manager{% endblock %}</title>
+    <!-- CSSのリンク -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+
+<body>
+
+    <!-- ナビゲーションバー -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'notebook_list' %}">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        {% block content %}
+        <!-- 各ページの内容がここに差し込まれる -->
+        {% endblock %}
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2025 gardenApp</p>
+    </footer>
+
+</body>
+
+</html>

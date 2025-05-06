@@ -1,0 +1,17 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}編集{% endblock %}
+
+{% block content %}
+<section class="generation-model-edit">
+    <h1>編集</h1>
+    <form method="post" class="styled-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">保存</button>
+            <a href="{% url 'notebook_list' %}" class="btn btn-secondary">戻る</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
