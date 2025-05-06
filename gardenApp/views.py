@@ -1,26 +1,51 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import (NoteBook)
+from .models import (NoteBook,CustomUser)
 from .forms import (NoteBookForm)
+from django.db import models
+from django.contrib.auth.hashers import make_password, check_password
+from django.shortcuts import render, redirect
+from django.http import HttpRequest
+
+
 PAGENATION_NUM = 100
 
 PASSWORD = "gardenMax"  # 任意のパスワードを設定
 
-def password_protect(request):
-    if request.method == "POST":
-        entered_password = request.POST.get("password")
-        if entered_password == PASSWORD:
-            request.session["authenticated"] = True  # セッションに認証情報を保存
-            return redirect("notebook_list")  # notebook_list のURL名にリダイレクト
-        else:
-            return render(request, "password_protect.html", {"error": "パスワードが間違っています。"})
-
-    return render(request, "password_protect.html")
-
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
+
+def register_view(request: HttpRequest):
+    if request.method == 'POST':
+        username = request.POST['username']
+        raw_password = request.POST['password']
+        hashed_password = make_password(raw_password)
+
+        CustomUser.objects.create(username=username, password=hashed_password)
+        return redirect('login')
+    return render(request, 'register.html')
+
+def login_view(request: HttpRequest):
+    if request.method == 'POST':
+        username = request.POST['username']
+        raw_password = request.POST['password']
+
+        try:
+            user = CustomUser.objects.get(username=username)
+            if check_password(raw_password, user.password):
+                # セッションにログイン情報を保存
+                request.session['custom_user_id'] = user.id
+                return redirect('home')
+            else:
+                error = "パスワードが正しくありません"
+        except CustomUser.DoesNotExist:
+            error = "ユーザーが存在しません"
+        return render(request, 'login.html', {'error': error})
+    return render(request, 'login.html')
+
+
 
 ##################################################################################################
 # notebook

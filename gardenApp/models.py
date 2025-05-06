@@ -21,3 +21,7 @@ class NoteBook(models.Model):
     url = models.URLField(null=True,blank=True)  # URL
     created_at = models.DateTimeField(auto_now_add=True)  # 作成日時
     updated_at = models.DateTimeField(auto_now=True)  # 更新日時
+
+class CustomUser(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    password = models.CharField(max_length=128)  # ハッシュ済みのパスワードを保存
