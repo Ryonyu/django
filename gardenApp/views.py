@@ -50,9 +50,9 @@ def login_view(request: HttpRequest):
                 request.session['custom_user_id'] = user.id
                 return redirect('notebook_list')  # ログイン成功後にリダイレクト
             else:
-                error = "パスワードが正しくありません"
+                error = "ログイン情報に誤りがあります。"
         except CustomUser.DoesNotExist:
-            error = "ユーザーが存在しません"
+            error = "ログイン情報に誤りがあります。"
         return render(request, 'login.html', {'error': error})
     return render(request, 'login.html')
 
