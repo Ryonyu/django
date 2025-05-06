@@ -11,6 +11,6 @@ urlpatterns = [
     path('notebook/delete/<int:id>/', views.notebook_delete, name='notebook_delete'),
 
     path('login/', auth_views.LoginView.as_view(template_name='password_protect.html'), name='login'),
-    path("password/", views.password_protect, name="password_protect"),
+    #path("password/", views.password_protect, name="password_protect"),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
