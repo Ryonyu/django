@@ -26,6 +26,9 @@ def index(request):
 # notebook
 ##################################################################################################
 # 一覧
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def notebook_list(request):
     models = NoteBook.objects.all()
 
