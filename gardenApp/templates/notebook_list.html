@@ -1,0 +1,144 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<section class="notebook-list">
+
+    <div class="title-and-create">
+        <h1>gardenApp<br>
+             <br> 今日登録した植物: {{ today_count }} 件 
+             <br> 登録されている植物: {{ total_count }} 件  </h1>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const triggers = document.querySelectorAll(".popup-trigger");
+            const popup = document.getElementById("popup");
+            const popupText = document.getElementById("popup-text");
+            const popupClose = document.querySelector(".popup-close");
+    
+            // トリガーをクリックしたときの処理
+            triggers.forEach(trigger => {
+                trigger.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const content = this.getAttribute("data-content");
+                    popupText.textContent = content;
+                    popup.style.display = "block";
+                });
+            });
+    
+            // 閉じるボタンをクリックしたときの処理
+            popupClose.addEventListener("click", function () {
+                popup.style.display = "none";
+            });
+    
+            // ポップアップの外側をクリックしたときの処理
+            popup.addEventListener("click", function (e) {
+                if (e.target === popup) {
+                    popup.style.display = "none";
+                }
+            });
+        });
+    </script>
+    <!-- 検索フォーム -->
+    <form method="get" class="search-form">
+
+        <div>
+            <!-- <label for="search-type">検索タイプ:</label> -->
+            <select name="search_type" id="search-type">
+                <option value="name" {% if request.GET.search_type == "name" %}selected{% endif %}>名称で検索</option>
+                <option value="category" {% if request.GET.search_type == "category" %}selected{% endif %}>カテゴリで検索</option>
+                <option value="floor" {% if request.GET.search_type == "floor" %}selected{% endif %}>フロアで検索</option>
+                <option value="season" {% if request.GET.search_type == "season" %}selected{% endif %}>季節で検索</option>
+                <option value="area" {% if request.GET.search_type == "area" %}selected{% endif %}>エリアで検索</option>
+                <option value="memo" {% if request.GET.search_type == "memo" %}selected{% endif %}>メモで検索</option>
+                <option value="content" {% if request.GET.search_type == "content" %}selected{% endif %}>説明で検索</option>
+
+            </select>
+        </div>
+
+        <input type="text" name="search" placeholder="検索" value="{{ request.GET.search }}">
+
+        <button type="submit">検索</button>
+    </form>
+    <a href="{% url 'notebook_create' %}" class="btn btn-primary">新規作成</a>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="popup-close">&times;</span>
+            <p id="popup-text"></p>
+        </div>
+    </div>
+
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th style="width: 10%;">名称</th>
+                <th style="width: 10%;">カテゴリ</th>
+                <th style="width: 20%;">説明</th>
+                <th style="width: 10%;">季節</th>
+                <th style="width: 10%;">フロア</th>
+                <th style="width: 10%;">エリア</th>
+                <th style="width: 10%;">画像</th>
+                <th style="width: 10%;">画像2</th>
+                <th style="width: 10%;">メモ</th>
+                <th style="width: 10%;">URL</th>
+                <th style="width: 10%;">作成日時</th>
+                <th style="width: 10%;">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for model in page_obj %}
+            <tr>
+                <td>{{ model.title }}</td>
+                <td>{{ model.category }}</td>
+                <td>
+                <a href="#" class="popup-trigger" data-content="{{ model.content|escape }}">{{ model.content|slice:":10" }}...</a>
+                </td>
+                <td>{{ model.season }}</td>
+                <td>{{ model.floor }}</td>
+                <td>{{ model.area }}</td>
+                <td>
+                    {% if model.image %}
+                        <img src="{{ model.image.url }}" alt="画像" class="output-image" style="max-width: 100px; height: auto;">
+                    {% else %}
+                        <p>画像はありません</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if model.image2 %}
+                        <img src="{{ model.image2.url }}" alt="画像2" class="output-image" style="max-width: 100px; height: auto;">
+                    {% else %}
+                        <p>画像はありません</p>
+                    {% endif %}
+                </td>
+                <td>{{ model.memo|linebreaksbr }}</td>
+                <td>
+                    <a href="{{ model.url }}" target="_blank" class="btn btn-copy">URL</a>
+                </td>
+                <td>{{ model.created_at |date:"Y/m/d" }}</td>
+                <td>
+                    <a href="{% url 'notebook_edit' model.id %}" class="btn btn-copy">編集</a>
+                    <a href="{% url 'notebook_delete' model.id %}" class="btn btn-danger">削除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- ページネーション -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; 最初</a>
+                <a href="?page={{ page_obj.previous_page_number }}">前</a>
+            {% endif %}
+            <span class="current">
+                ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">次</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後 &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</section>
+{% endblock %}

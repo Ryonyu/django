@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}削除確認{% endblock %}
+
+{% block content %}
+<section class="generation-model-confirm-delete">
+    <h1>削除確認</h1>
+    <p>本当に削除しますか？</p>
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">削除</button>
+        <a href="{% url 'notebook_list' %}" class="btn btn-secondary">キャンセルして一覧に戻る</a>
+    </form>
+</section>
+{% endblock %}
