@@ -21,6 +21,7 @@ def custom_login_required(view_func):
         if not request.session.get('custom_user_id'):
             return redirect('login')  # 未ログインならログイン画面へ
         return view_func(request, *args, **kwargs)
+    
     return wrapper
 
 
@@ -63,7 +64,7 @@ def login_view(request: HttpRequest):
 ##################################################################################################
 # 一覧
 
-
+@custom_login_required
 def notebook_list(request):
     models = NoteBook.objects.all()
 
