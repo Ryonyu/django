@@ -40,6 +40,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'gardenApp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
