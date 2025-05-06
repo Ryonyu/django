@@ -13,6 +13,17 @@ PAGENATION_NUM = 100
 
 PASSWORD = "gardenMax"  # 任意のパスワードを設定
 
+# utils.py などに保存（または views.py に直接書いてもOK）
+from django.shortcuts import redirect
+
+def custom_login_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if not request.session.get('custom_user_id'):
+            return redirect('login')  # 未ログインならログイン画面へ
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -24,7 +35,7 @@ def register_view(request: HttpRequest):
         hashed_password = make_password(raw_password)
 
         CustomUser.objects.create(username=username, password=hashed_password)
-        return redirect('login')
+        return redirect('notebook_list')  # 登録後にリダイレクト
     return render(request, 'register.html')
 
 def login_view(request: HttpRequest):
@@ -51,8 +62,8 @@ def login_view(request: HttpRequest):
 # notebook
 ##################################################################################################
 # 一覧
-from django.contrib.auth.decorators import login_required
 
+@custom_login_required
 def notebook_list(request):
     models = NoteBook.objects.all()
 

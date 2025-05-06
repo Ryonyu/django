@@ -11,6 +11,7 @@ urlpatterns = [
     path('notebook/delete/<int:id>/', views.notebook_delete, name='notebook_delete'),
 
     path('registor/', views.register_view, name='register'),
+    path('login/', views.login_view, name='login'),
     #path('login/', auth_views.LoginView.as_view(template_name='password_protect.html'), name='login'),
     #path("login/", auth_views.LoginView.as_view(template_name='password_protect.html'), name="password_protect"),
 
