@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class NoteBook(models.Model):
     title = models.CharField(max_length=255)  # ノートブックのタイトル
-    content = models.TextField()  # ノートブックの内容
+    content = models.TextField(null=True)  # ノートブックの内容
 
     category = models.CharField(max_length=255,null=True,blank=True)  # ノートブックのタイトル
 
