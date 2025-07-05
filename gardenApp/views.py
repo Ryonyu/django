@@ -13,6 +13,30 @@ PAGENATION_NUM = 100
 
 PASSWORD = "gardenMax"  # 任意のパスワードを設定
 
+
+import os
+import zipfile
+from io import BytesIO
+from django.http import HttpResponse
+from django.conf import settings
+
+def download_output_images(request):
+    # media/output_imagesの絶対パスを取得
+    output_dir = os.path.join(settings.MEDIA_ROOT, 'output_images')
+    # ZIPファイルをメモリ上に作成
+    zip_buffer = BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
+        for filename in os.listdir(output_dir):
+            file_path = os.path.join(output_dir, filename)
+            if os.path.isfile(file_path):
+                zip_file.write(file_path, arcname=filename)
+    zip_buffer.seek(0)
+    response = HttpResponse(zip_buffer, content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename=output_images.zip'
+    return response
+
+
+
 # utils.py などに保存（または views.py に直接書いてもOK）
 from django.shortcuts import redirect
 

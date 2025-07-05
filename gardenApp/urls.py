@@ -14,5 +14,6 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     #path('login/', auth_views.LoginView.as_view(template_name='password_protect.html'), name='login'),
     #path("login/", auth_views.LoginView.as_view(template_name='password_protect.html'), name="password_protect"),
-
+    path('download-images/', views.download_output_images, name='download_output_images'),
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
